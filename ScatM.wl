@@ -3,7 +3,7 @@
 (* Setup of the basic quantities *)
 ClearAll["Global`*"]
 beginTime=SessionTime[];
-notebookDir="/mnt/raid/cieslik/SymV05/b_1";
+notebookDir="directory of the program file";
 \[Xi]h=2; (* Location of the horizon *) 
 \[Xi]f=3; (* Location of the photon orbit *) 
 (* Mass of the test particle and the black hole *)
@@ -15,7 +15,7 @@ m = 1;
 
 x\[Xi]0=1000; (* Outer radius of the numerical grid *)
 
-v=0.5; (* Velocity of the boost *)
+v=0.95; (* Velocity of the boost *)
 \[Gamma]=1/Sqrt[1-v^2]; (* Lorentz factor *)
 energycutoff=10; (* The maximum energy of the particle to which we limit the simulation *)
 Print["Loading basic data"]

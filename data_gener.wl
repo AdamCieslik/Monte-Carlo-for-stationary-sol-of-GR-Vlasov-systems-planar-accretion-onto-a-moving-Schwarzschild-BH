@@ -3,7 +3,7 @@
 (* Setup of the basic quantities *)
 ClearAll["Global`*"]
 beginTime=SessionTime[];
-notebookDir="/mnt/raid/cieslik/SymV05/b_1/Data";
+notebookDir="directory of the program file";
 \[Xi]h=2; (* Location of the horizon *) 
 \[Xi]f=3; (* Location of the photon orbit *) 
 (* Mass of the test particle and the black hole *)
@@ -15,7 +15,7 @@ m = 1;
 
 x\[Xi]0=1000; (* Outer radius of the numerical grid *)
 
-v=0.5; (* Velocity of the boost *)
+v=0.95; (* Velocity of the boost *)
 \[Gamma]=1/Sqrt[1-v^2]; (* Lorentz factor *)
 energycutoff=10; (* The maximum energy of the particle to which we limit the simulation *)
 Print["Loading basic data"];
@@ -36,16 +36,16 @@ Print["Loading the basic quantities"];
 normM=NIntegrate[Exp[-\[Beta]/Sqrt[1-v^2]*(\[CurlyEpsilon]+v*Sqrt[\[CurlyEpsilon]^2-1]*Cos[\[Phi]])],{\[Phi],0,2*Pi},{\[CurlyEpsilon],1,energycutoff}];
 distM=ProbabilityDistribution[Exp[-\[Beta]/Sqrt[1-v^2]*(\[CurlyEpsilon]+v*Sqrt[\[CurlyEpsilon]^2-1]*Cos[\[Phi]])]/normM,{\[CurlyEpsilon],1,energycutoff},{\[Phi],0,2*Pi}];
 (* Generating initial data *)
-dataM0=.
+daneM0=.
 (* Generating data from distribution *)
-dataM0=RandomVariate[distM,num,Method->{"MCMC","Thinning"->2,"InitialVariance"->1}];
-dataM=Transpose[{dataM0[[All,1]],RandomReal[{0,\[Lambda]cutoff},num],dataM0[[All,2]],RandomChoice[{-1,1},num]}];
-Print["DistM data generation, time (in minutes):", (SessionTime[]-beginTime)/60];
+daneM0=RandomVariate[distM,num,Method->{"MCMC","Thinning"->2,"InitialVariance"->1}];
+daneM=Transpose[{daneM0[[All,1]],RandomReal[{0,\[Lambda]cutoff},num],daneM0[[All,2]],RandomChoice[{-1,1},num]}];
+Print["DistM data generation, time (in minutes):", (SessionTime[]-beginTime)/60]
 (* Dividing data into scattered and absorbed parts *)
 Clear[results,\[Epsilon],\[Lambda],\[Phi]0,dir]
 
 results=Table[
-	{\[Epsilon],\[Lambda],\[Phi]0,dir}=dataM[[i]][[1;;4]];
+	{\[Epsilon],\[Lambda],\[Phi]0,dir}=daneM[[i]][[1;;4]];
 	\[Lambda]up=\[Lambda]max[\[Epsilon],x\[Xi]0];
 	If[
 		\[Lambda]<\[Lambda]max[\[Epsilon],x\[Xi]0],
@@ -98,8 +98,8 @@ If[\[Lambda]<\[Lambda]max[\[Epsilon],x\[Xi]0],
 (* Filtering the results *)
 scatP=Select[results,#[[2]]>\[Lambda]c[#[[1]]]&];
 absP=Select[results,#[[2]]<=\[Lambda]c[#[[1]]]&];
-Print["Ilo\:015b\[CAcute] danych absP", Length[absP]];
-Print["Ilo\:015b\[CAcute] danych scatP", Length[scatP]];
+Print["Amount of absP data", Length[absP]];
+Print["Amount of scatP data", Length[scatP]];
 
 (* Length of one part for scatP *)
 partLengthScatP=Ceiling[Length[scatP]/numberOfParts];
